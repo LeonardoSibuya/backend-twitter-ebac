@@ -1,0 +1,20 @@
+# Arquivos e diretórios criados pelo sistema operacional
+*.pyc
+*~
+__pycache__/
+
+# Arquivos de ambiente e configuração
+.env
+.env.*
+*.sqlite3
+
+# Arquivos de log
+*.log
+
+# Arquivos estáticos e compilados
+/staticfiles/
+/static/
+
+# Dependências
+# Utilize a saída do comando "pip freeze > requirements.txt" para adicionar suas dependências ao arquivo requirements.txt
+# E então adicione requirements.txt ao seu .gitignore
