@@ -16,5 +16,4 @@ __pycache__/
 /static/
 
 # Dependências
-# Utilize a saída do comando "pip freeze > requirements.txt" para adicionar suas dependências ao arquivo requirements.txt
-# E então adicione requirements.txt ao seu .gitignore
+requirements.txt

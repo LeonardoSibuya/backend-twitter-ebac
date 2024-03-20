@@ -1,2 +1,2 @@
 from .user_viewset import UserViewSet
-from .tweet_viewset import TweetCreateViewSet
+from .tweet_viewset import TweetViewSet

@@ -6,7 +6,7 @@ from rest_framework import status
 from twitter.models import Tweet, User
 from twitter.serializers import TweetSerializer
 
-class TweetCreateViewSet(viewsets.ViewSet):
+class TweetViewSet(viewsets.ViewSet):
     def create(self, request, user_id=None):
         # Get the user object or return 404 if not found
         user = get_object_or_404(User, pk=user_id)
