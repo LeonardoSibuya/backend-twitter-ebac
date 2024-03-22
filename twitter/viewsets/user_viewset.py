@@ -4,43 +4,68 @@ from twitter.serializers import UserSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     
     @action(detail=True, methods=['post'])
-    def follow(self, request, pl=None):
-        user = self.get_object()
-        target_user_id = request.data.get('target_user_id')
+    def follow(self, request, pk=None, target_pk=None):
+        # Obtenha o usuário logado
+        user = User.objects.filter(pk=pk).first()
         
-        if target_user_id is None:
-            return Response({"Error": "O ID do usúario é obrigatório"}, status=status.HTTP_400_BAD_REQUEST)
+        # Obtenha o usuário alvo que será seguido
+        target_user = User.objects.filter(pk=target_pk).first()
         
-        target_user = User.objects.filter(pk=target_user_id).first()
-        
+        # Verifique se o usuário alvo existe
         if target_user is None:
-            return Response({"Error": "Usúario não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"Error": "Usuário alvo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
         
-        # add follow and follower
+        # Verifique se o usuário já está seguindo o usuário-alvo
+        if user.follows.filter(pk=target_user.pk).exists():
+            return Response({"Error": "Você já está seguindo este usuário"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Adicione o usuário alvo aos seguidos pelo usuário que está seguindo
         user.follows.add(target_user)
+
+        # Adicione o usuário que está seguindo aos seguidores do usuário alvo
         target_user.followers.add(user)
         
-        return Response({"Message:" "Você seguiu com sucesso o úsuario: ", target_user.name}, status=status.HTTP_201_CREATED)
+        # Serialize os dados completos dos usuários
+        user_serializer = UserSerializer(user)
+        target_user_serializer = UserSerializer(target_user)
+
+        # Retorne os dados dos usuários seguindo o padrão especificado no serializer
+        return Response({
+            "Message": f"Você seguiu com sucesso o usuário: {target_user.name}",
+            "Follower": user_serializer.data,
+            "Following": target_user_serializer.data
+        }, status=status.HTTP_201_CREATED)
     
     @action(detail=True, methods=['post'])
-    def unfollow(self, request, pk=None):
-        user = self.get_object()
-        target_user_id = request.data.get('target_user_id')
+    def unfollow(self, request, pk=None, target_pk=None):
+        # Obtenha o usuário logado
+        user = User.objects.filter(pk=pk).first()
 
-        if target_user_id is None:
-            return Response({"error": "O ID do usuário alvo é obrigatório"}, status=status.HTTP_400_BAD_REQUEST)
+        # Obtenha o usuário alvo que será deixado de seguir
+        target_user = User.objects.filter(pk=target_pk).first()
 
-        target_user = User.objects.filter(pk=target_user_id).first()
         if target_user is None:
             return Response({"error": "Usuário alvo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
-        # remove follow and follower
+        # Remova o usuário alvo dos seguidos pelo usuário que está deixando de seguir
         user.follows.remove(target_user)
+
+        # Remova o usuário que está deixando de seguir dos seguidores do usuário alvo
         target_user.followers.remove(user)
 
-        return Response({"message": "Você deixou de seguir com sucesso o usuário"}, status=status.HTTP_200_OK)
+        # Serialize os dados completos dos usuários
+        user_serializer = UserSerializer(user)
+        target_user_serializer = UserSerializer(target_user)
+
+        # Retorne os dados dos usuários seguindo o padrão especificado no serializer
+        return Response({
+            "Message": f"Você deixou de seguir com sucesso o usuário: {target_user.name}",
+            "Follower": user_serializer.data,
+            "Following": target_user_serializer.data
+        }, status=status.HTTP_200_OK)

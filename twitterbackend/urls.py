@@ -11,6 +11,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('users/<int:user_id>/tweet/', TweetViewSet.as_view({'post': 'create'}), name='user_tweet_create'),
     path('users/tweet/<int:tweet_id>/delete/', TweetViewSet.as_view({'delete': 'delete_tweet'}), name='tweet-delete'),
-    path('users/<int:pk>/follow/', UserViewSet.as_view({'post': 'follow'}), name='user-follow'),
-    path('users/<int:pk>/unfollow/', UserViewSet.as_view({'post': 'unfollow'}), name='user-unfollow'),
+    path('users/<int:pk>/follow/<int:target_pk>', UserViewSet.as_view({'post': 'follow'}), name='user-follow'),
+    path('users/<int:pk>/unfollow/<int:target_pk>', UserViewSet.as_view({'post': 'unfollow'}), name='user-unfollow'),
 ]

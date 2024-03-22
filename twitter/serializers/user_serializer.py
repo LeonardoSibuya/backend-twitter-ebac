@@ -4,13 +4,19 @@ from twitter.serializers.tweet_serializer import TweetSerializer
 from twitter.models import User
 
 class UserSerializer(serializers.ModelSerializer):
-    follows = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    followers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    follows = serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
     tweets = TweetSerializer(many=True, read_only=True)
     
     class Meta:
         model = User
         fields = ['id', 'name', 'email', 'password', 'follows', 'followers', 'tweets']
+        
+    def get_follows(self, obj):
+        return obj.follows.values('id', 'name', 'email', 'follows', 'followers', 'tweet')
+    
+    def get_followers(self, obj):
+        return obj.followers.values('id', 'name', 'email', 'follows', 'followers', 'tweet')
         
     def to_representation(self, instance):
         data = super().to_representation(instance)
