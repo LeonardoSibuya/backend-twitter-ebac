@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-+_4m=i2kpc!v2voh7vp^zgr6yft32k*@_0_(g#!i+o2n0iwelp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,9 +44,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # "corsheaders.middleware.CorsMiddleware",
+    "twitter.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -56,7 +57,15 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "https://twitterebac.vercel.app",
 ]
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "https://twitterebac.vercel.app/",
+]
+
+CORS_ORIGIN_ALLOW_ALL = False
 
 ROOT_URLCONF = "twitterbackend.urls"
 
