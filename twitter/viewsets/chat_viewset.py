@@ -1,11 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from twitter.models import Message, Conversation
-from twitter.serializers import ConversationSerializer, MessageSerializer
+from twitter.models import Message, User
+from twitter.serializers import MessageSerializer
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
-# from itertools import chain
 
 class ChatMessageViewSet(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
@@ -25,14 +23,24 @@ class ChatMessageViewSet(viewsets.ModelViewSet):
             user1_id = min(message.sender.id, message.receiver.id)
             user2_id = max(message.sender.id, message.receiver.id)
             
+            if user1_id == user_id:
+                user1 = User.objects.get(id=user1_id)
+                user2 = User.objects.get(id=user2_id)
+            else:
+                user1 = User.objects.get(id=user2_id)
+                user2 = User.objects.get(id=user1_id)
+            
             # Cria a chave da conversa
             conversation_key = (user1_id, user2_id)
 
             # Verifique se a conversa já existe no dicionário, se não, cria
             if conversation_key not in conversations:
                 conversations[conversation_key] = {
-                    'user1': user1_id,
-                    'user2': user2_id,
+                    'user1': user1.id,
+                    'user2': {
+                        'id': user2.id,
+                        'name': user2.name
+                    },
                     'messages': []
                 }
 
