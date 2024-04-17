@@ -13,7 +13,9 @@ SECRET_KEY = "django-insecure-+_4m=i2kpc!v2voh7vp^zgr6yft32k*@_0_(g#!i+o2n0iwelp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://localhost:3000',
+    'https://twitterebac.vercel.app',
+    'leonardosibuya.pythonanywhere.com']
 
 # Application definition
 
@@ -44,12 +46,12 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    # "https://twitterebac.vercel.app",
+    "https://twitterebac.vercel.app",
 ]
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    # "https://twitterebac.vercel.app/",
+    "https://twitterebac.vercel.app/",
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
