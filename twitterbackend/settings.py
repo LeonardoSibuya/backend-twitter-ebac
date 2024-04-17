@@ -13,9 +13,7 @@ SECRET_KEY = "django-insecure-+_4m=i2kpc!v2voh7vp^zgr6yft32k*@_0_(g#!i+o2n0iwelp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost',
-    'twitterebac.vercel.app',
-    'leonardosibuya.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', 'twitterebac.vercel.app', 'leonardosibuya.pythonanywhere.com', '127.0.0.1']
 
 # Application definition
 
