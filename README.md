@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Este é um projeto de backend desenvolvido em Django para construção de uma API REST utilizando Django Rest Framework (DRF). A API está hospedada no PythonAnywhere.
+Este é um projeto de backend desenvolvido em Django para construção de uma API REST utilizando Django Rest Framework (DRF). A API está hospedada no PythonAnywhere e com o DB em SQL.
 
 ## Requisitos
 
